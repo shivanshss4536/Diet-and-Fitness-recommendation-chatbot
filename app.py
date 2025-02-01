@@ -49,25 +49,26 @@ def set_css():
             #myVideo {
                 position: fixed;
                 top: 50%;
-                left: 50%;
+                left: 33%;
                 min-width: 100%;
                 min-height: 100%;
                 width: auto;
                 height: auto;
                 z-index: 0;
-                transform: translate(-50%, -50%);
+                transform: translate(-50%, -30%);
                 background-size: cover;
             }
             .content {
                 top: 0;
-                left: 0;
-                height: 100%;
-                width: 100%;
+                left: -2px;
+                height: -webkit-fill-available;
+                width: 101.9%;
                 position: fixed;
                 background: rgba(0, 0, 0, 0.7);
                 color: #f1f1f1;
                 padding: 0;
                 border-radius: 8px;
+                margin: -30px;
                 box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
             }
             #recommendation_box {
@@ -84,8 +85,9 @@ def set_css():
                 to { opacity: 1; transform: translateY(0); }
             }
             ::-webkit-scrollbar {
-                width: 12px;
-                height: 12px;
+                width: 18px;
+                height: 18px;
+                z_index: 1;
             }
             ::-webkit-scrollbar-track {
                 background: #222; 
@@ -97,6 +99,7 @@ def set_css():
                 border: 2px solid #222;
             }
             * {
+                z_index: -1;
                 scrollbar-width: thin;
                 scrollbar-color: #f39c12 #222;
             }
@@ -201,7 +204,7 @@ def input_page():
                 recommendations = recommendation_chain.invoke(user_data)
             st.session_state.recommendations = recommendations
             st.session_state.page = "output"
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Please fill in all required fields!")
     st.markdown('</div>', unsafe_allow_html=True)
@@ -231,12 +234,12 @@ def output_page():
 
         if st.button("🔙 Back to Input Page"):
             st.session_state.page = "input"
-            st.experimental_rerun()
+            st.rerun()
     else:
         st.warning("No recommendations found.")
         if st.button("🔙 Back to Input Page"):
             st.session_state.page = "input"
-            st.experimental_rerun()
+            st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
 def main():
