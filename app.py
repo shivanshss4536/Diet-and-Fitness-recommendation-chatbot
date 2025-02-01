@@ -127,6 +127,22 @@ def set_css():
             .stTextInput>div>div>input::placeholder {
                 color: #ddd;
             }
+                 @media (max-width: 768px) {
+                .content {
+        top: 0;
+        left: 0px;
+        height: -webkit-fill-available;
+        width: -webkit-fill-available;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.7);
+        color: #f1f1f1;
+        padding: -1px;
+        border-radius: 8px;
+        margin: -30px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        overflow-y: scroll !important;
+    }
+            }
             .card {
                 background: rgba(255, 255, 255, 0.1);
                 border: 1px solid #f39c12;
