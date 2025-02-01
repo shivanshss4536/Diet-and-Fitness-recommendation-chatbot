@@ -133,8 +133,8 @@ def set_css():
                 .content { 
                     top: 0;
                     left: 0;
-                    height: webkit-fill-available;
-                    width: webkit-fill-available;
+                    height: -webkit-fill-available;
+                   width: -webkit-fill-available;
                     position: fixed;
                     background: rgba(0, 0, 0, 0.7);
                     color: #f1f1f1;
