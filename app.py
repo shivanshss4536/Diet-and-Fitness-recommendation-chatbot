@@ -49,30 +49,29 @@ def set_css():
             #myVideo {
                 position: fixed;
                 top: 50%;
-                left: 21%;
+                left: 50%;
                 min-width: 100%;
                 min-height: 100%;
                 width: auto;
                 height: auto;
                 z-index: 0;
-                transform: translate(-44%, -27%);
+                transform: translate(-50%, -50%);
                 background-size: cover;
             }
             .content {
                 top: 0;
-                left: 0px;
-                height: -webkit-fill-available;
-                width: 101.9%;
+                left: 0;
+                height: 100%;
+                width: 100%;
                 position: fixed;
                 background: rgba(0, 0, 0, 0.7);
                 color: #f1f1f1;
-                padding: -1px;
+                padding: 0;
                 border-radius: 8px;
-                margin: -30px;
                 box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
             }
             #recommendation_box {
-                width: 50%;
+                width: 90%;
                 margin: 5% auto;
                 animation: fadeIn 1.5s ease-in-out;
                 text-align: center;
@@ -127,21 +126,19 @@ def set_css():
             .stTextInput>div>div>input::placeholder {
                 color: #ddd;
             }
-                 @media (max-width: 768px) {
-                .content {
-        top: 0;
-        left: 0px;
-        height: -webkit-fill-available;
-        width: -webkit-fill-available;
-        position: fixed;
-        background: rgba(0, 0, 0, 0.7);
-        color: #f1f1f1;
-        padding: -1px;
-        border-radius: 8px;
-        margin: -30px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-        overflow-y: scroll !important;
-    }
+            @media (max-width: 768px) {
+                .content { 
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    position: fixed;
+                    background: rgba(0, 0, 0, 0.7);
+                    color: #f1f1f1;
+                    border-radius: 8px;
+                    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+                    overflow-y: scroll !important;
+                }
             }
             .card {
                 background: rgba(255, 255, 255, 0.1);
@@ -185,8 +182,8 @@ def input_page():
             body_weight = st.text_input("⚖️ Weight (kg)")
             height_in_cm = st.text_input("📏 Height (cm)")
             diet_preference = st.selectbox("🍴 Diet Preference", ['Veg', 'Non-Veg'])
-        allergic_reactions = st.text_input("🚫 Allergic Reactions")
-        submit_button = st.form_submit_button(label="💡 Get Recommendations")
+        allergic_reactions = st.text_input("⛔ Allergic Reactions")
+        submit_button = st.form_submit_button(label="🔔 Get Recommendations")
     st.markdown('</div>', unsafe_allow_html=True)
 
     if submit_button:
@@ -218,7 +215,7 @@ def output_page():
         with st.expander("View Recommendations"):
             st.markdown(f"<div class='card'>{st.session_state.recommendations}</div>", unsafe_allow_html=True)
 
-        st.markdown("### 📈 Weekly Activity Overview")
+        st.markdown("### 📊 Weekly Activity Overview")
         data = pd.DataFrame({
             "Day": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             "Calories Burned": [300, 450, 500, 600, 550, 700, 400]
