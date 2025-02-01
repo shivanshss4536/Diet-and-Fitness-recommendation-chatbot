@@ -264,8 +264,9 @@ def clean_recommendations_text(recommendations_text):
 
 def generate_pdf(recommendations_text):
     # Ensure the directory exists
-    output_dir = '/mnt/data/'
+    output_dir = "generated_pdfs"  # or another directory within your app's folder
     os.makedirs(output_dir, exist_ok=True)
+    pdf_file_path = os.path.join(output_dir, "recommendations.pdf") 
     
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
