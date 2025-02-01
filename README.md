@@ -34,11 +34,8 @@ Elevate your health journey with our Diet &amp; Workout Recommendation System on
 **End**
 
 
-## Demo
-
-
-
 ## Live Project
+https://diet-and-fitness-recommendation-chatbot-7znerfxta8sdnjfgwd6m92.streamlit.app/
 
 
 
