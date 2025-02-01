@@ -49,7 +49,7 @@ def set_css():
             #myVideo {
                 position: fixed;
                 top: 50%;
-                left: 33%;
+                left: 34%;
                 min-width: 100%;
                 min-height: 100%;
                 width: auto;
@@ -60,7 +60,7 @@ def set_css():
             }
             .content {
                 top: 0;
-                left: -2px;
+                left: 14px;
                 height: -webkit-fill-available;
                 width: 101.9%;
                 position: fixed;
@@ -133,8 +133,8 @@ def set_css():
                 .content { 
                     top: 0;
                     left: 0;
-                    height: 100%;
-                    width: 100%;
+                    height: webkit-fill-available;
+                    width: webkit-fill-available;
                     position: fixed;
                     background: rgba(0, 0, 0, 0.7);
                     color: #f1f1f1;
