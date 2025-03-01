@@ -20,7 +20,7 @@ lcg.set_verbose(True)
 os.environ["GOOGLE_API_KEY"] = 'AIzaSyBGKnyD4gAXmoeXT61bikW-wkQ4SRr3yU4'
 
 config = {"temperature": 0.6, "top_p": 1, "top_k": 1, "max_output_tokens": 2048}
-ai_model = GoogleGenerativeAI(model="gemini-pro", generation_config=config)
+ai_model = GoogleGenerativeAI(model="gemini-1.5-pro", generation_config=config)
 
 diet_prompt_template = PromptTemplate(
     input_variables=[
