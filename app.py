@@ -2,10 +2,7 @@
 import streamlit as st
 import os
 import base64
-from langchain.prompts import PromptTemplate
-from langchain_google_genai import GoogleGenerativeAI
-from langchain_core.runnables import RunnableLambda
-import langchain.globals as lcg
+import google.generativeai as genai
 import pandas as pd
 import plotly.express as px
 from fpdf import FPDF
@@ -16,34 +13,28 @@ st.set_page_config(layout="wide", page_icon="🏋️", page_title="Personalized 
 if 'page' not in st.session_state:
     st.session_state.page = 'input'
 
-lcg.set_verbose(True)
 os.environ["GOOGLE_API_KEY"] = 'AIzaSyBGKnyD4gAXmoeXT61bikW-wkQ4SRr3yU4'
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
-config = {"temperature": 0.6, "top_p": 1, "top_k": 1, "max_output_tokens": 2048}
-ai_model = GoogleGenerativeAI(model="gemini-1.5-pro", generation_config=config)
+model = genai.GenerativeModel('gemini-1.5-pro')
 
-diet_prompt_template = PromptTemplate(
-    input_variables=[
-        'full_name', 'age_group', 'gender_identity', 'body_weight',
-        'height_in_cm', 'diet_preference', 'allergic_reactions'
-    ],
-    template=""" 
+def generate_recommendations(user_data):
+    prompt = f""" 
     Diet and Exercise Recommendation System:
     Suggest 6 types of home workouts with detailed instructions,
     6 breakfast ideas with nutritional information,
     5 dinner options with nutritional information, 
     and 6 gym workout plans for each day of the week.
-    Full Name: {full_name}
-    Age: {age_group}
-    Gender: {gender_identity}
-    Weight: {body_weight}
-    Height: {height_in_cm}
-    Diet Preference: {diet_preference}
-    Allergic Reactions: {allergic_reactions}
+    Full Name: {user_data['full_name']}
+    Age: {user_data['age_group']}
+    Gender: {user_data['gender_identity']}
+    Weight: {user_data['body_weight']}
+    Height: {user_data['height_in_cm']}
+    Diet Preference: {user_data['diet_preference']}
+    Allergic Reactions: {user_data['allergic_reactions']}
     """
-)
-
-recommendation_chain = RunnableLambda(lambda inputs: diet_prompt_template.format(**inputs)) | ai_model
+    response = model.generate_content(prompt)
+    return response.text
 
 def set_css():
     st.markdown("""
@@ -249,7 +240,7 @@ def input_page():
                 'allergic_reactions': allergic_reactions
             }
             with st.spinner("Generating your personalized recommendations..."):
-                recommendations = recommendation_chain.invoke(user_data)
+                recommendations = generate_recommendations(user_data)
             st.session_state.recommendations = recommendations
             st.session_state.page = "output"
             st.rerun()

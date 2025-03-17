@@ -11,7 +11,7 @@ Elevate your health journey with our Diet &amp; Workout Recommendation System on
 
 - **Streamlit:** Framework for building web applications in Python.
 - **Google Gemini Pro API:** Access to Google AI's text-generating capabilities.
-- **Langchain:** Library for interacting with Google AI models.
+- **Google Generative AI:** Direct integration with Google's generative AI models.
 
 ## Flowchart: Using Google Gemini Pro API Key in Diet and Workout Recommendation Project
 
@@ -21,7 +21,7 @@ Elevate your health journey with our Diet &amp; Workout Recommendation System on
 
 **--> Prepare request for Gemini Pro API** - Format user input into structured API request - Include prompts and parameters as needed
 
-**--> Send request to Gemini Pro API** - Use Langchain library or other method - Submit request with API key
+**--> Send request to Gemini Pro API** - Use Google Generative AI library - Submit request with API key
 
 **--> Receive response from Gemini Pro API** - API processes request - Generates text output with recommendations
 
@@ -45,9 +45,20 @@ https://diet-and-fitness-recommendation-chatbot-qrvh3zwnnphu6mswfiba5p.streamlit
 2. **Install required libraries:**
 
    ```bash
-   pip install "library"
+   pip install -r requirements.txt
+   ```
 
-## Run the Streamlit app:
+3. **Run the Streamlit app:**
 
-  ````Bash
-  streamlit run app.py   
+   ```bash
+   streamlit run app.py
+   ```
+
+## Requirements
+
+The application requires the following packages:
+- streamlit
+- google-generativeai
+- plotly
+- pandas
+- fpdf
