@@ -33,8 +33,12 @@ def generate_recommendations(user_data):
     Diet Preference: {user_data['diet_preference']}
     Allergic Reactions: {user_data['allergic_reactions']}
     """
-    response = model.generate_content(prompt)
-    return response.text
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        st.error(f"Error generating recommendations. Please try again.")
+        return "Unable to generate recommendations at this time. Please try again later."
 
 def set_css():
     st.markdown("""
@@ -251,6 +255,8 @@ def input_page():
 def clean_recommendations_text(recommendations_text):
     # Remove markdown symbols and clean up text for the PDF
     cleaned_text = re.sub(r'[*_]', '', recommendations_text)  # Remove asterisks and underscores
+    # Replace any non-ASCII characters with their closest ASCII equivalents or spaces
+    cleaned_text = ''.join(c if ord(c) < 128 else ' ' for c in cleaned_text)
     return cleaned_text
 
 def generate_pdf(recommendations_text):
@@ -259,9 +265,10 @@ def generate_pdf(recommendations_text):
     os.makedirs(output_dir, exist_ok=True)
     pdf_file_path = os.path.join(output_dir, "recommendations.pdf") 
     
+    # Initialize PDF with UTF-8 encoding
     pdf = FPDF()
-    pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=15)
     
     # Set the title
     pdf.set_font("Arial", 'B', 16)
@@ -273,7 +280,13 @@ def generate_pdf(recommendations_text):
     
     # Clean and add recommendations content
     cleaned_text = clean_recommendations_text(recommendations_text)
-    pdf.multi_cell(0, 10, cleaned_text)
+    
+    try:
+        pdf.multi_cell(0, 10, cleaned_text)
+    except Exception as e:
+        # If there's still an error, use a more aggressive approach
+        cleaned_text = ''.join(c for c in cleaned_text if ord(c) < 128)
+        pdf.multi_cell(0, 10, cleaned_text)
     
     # Save the PDF
     pdf_file_path = os.path.join(output_dir, "recommendations.pdf")
@@ -299,12 +312,16 @@ def output_page():
         st.plotly_chart(fig, use_container_width=True)
 
         # Generate and provide a PDF download
-        pdf_file_path = generate_pdf(st.session_state.recommendations)
-        with open(pdf_file_path, "rb") as pdf_file:
-            pdf_bytes = pdf_file.read()
-            b64_pdf = base64.b64encode(pdf_bytes).decode()
-            href = f'<a href="data:application/pdf;base64,{b64_pdf}" download="recommendations.pdf"><button class="stButton">📥 Download Recommendations (PDF)</button></a>'
-            st.markdown(href, unsafe_allow_html=True)
+        try:
+            pdf_file_path = generate_pdf(st.session_state.recommendations)
+            with open(pdf_file_path, "rb") as pdf_file:
+                pdf_bytes = pdf_file.read()
+                b64_pdf = base64.b64encode(pdf_bytes).decode()
+                href = f'<a href="data:application/pdf;base64,{b64_pdf}" download="recommendations.pdf"><button class="stButton">📥 Download Recommendations (PDF)</button></a>'
+                st.markdown(href, unsafe_allow_html=True)
+        except Exception as e:
+            st.error("Could not generate PDF. Please try again or contact support.")
+            st.info("You can still view your recommendations in the Overview section above.")
 
         if st.button("🔙 Back to Input Page"):
             st.session_state.page = "input"
