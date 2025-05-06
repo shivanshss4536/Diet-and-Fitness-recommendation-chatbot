@@ -13,7 +13,7 @@ st.set_page_config(layout="wide", page_icon="🏋️", page_title="Personalized 
 if 'page' not in st.session_state:
     st.session_state.page = 'input'
 
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyBGKnyD4gAXmoeXT61bikW-wkQ4SRr3yU4'
+os.environ["GOOGLE_API_KEY"] = 'AIzaSyDBNbiXQQFQsdNT0-MpQcfXYqGKO-Mb7kc'
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 model = genai.GenerativeModel('gemini-1.5-pro')
