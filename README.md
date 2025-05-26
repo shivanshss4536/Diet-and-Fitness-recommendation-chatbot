@@ -1,6 +1,6 @@
 # Health and Fitness Chatbot
 
-A personalized diet and workout recommendation system using Google Gemini Pro.
+A personalized diet and workout recommendation system using Cohere's AI API.
 
 ## Features
 
@@ -12,42 +12,56 @@ A personalized diet and workout recommendation system using Google Gemini Pro.
 
 ## Setup Instructions
 
-1. Clone the repository:
-```bash
-git clone <your-repository-url>
-cd health-and-fitness-chatbot
-```
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repository-url>
+   cd health-and-fitness-chatbot
+   ```
 
-2. Create a virtual environment and activate it:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+2. **Create a virtual environment and activate it:**
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On Mac/Linux:
+   source venv/bin/activate
+   ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. Create a `.env` file in the root directory and add your Google API key:
-```
-GOOGLE_API_KEY=your_api_key_here
-```
+4. **Get your Cohere API key:**
+   - Sign up at [Cohere Dashboard](https://dashboard.cohere.com/)
+   - Copy your API key from the dashboard
 
-5. Run the application:
-```bash
-streamlit run app.py
-```
+5. **Set your API key:**
+   - For local development, create a `.env` file in the root directory:
+     ```env
+     COHERE_API_KEY=your_cohere_api_key_here
+     ```
+   - **For Streamlit Cloud deployment:**
+     - Go to your app's **Settings → Secrets**
+     - Add your key in TOML format:
+       ```toml
+       COHERE_API_KEY = "your_cohere_api_key_here"
+       ```
+
+6. **Run the application locally:**
+   ```bash
+   streamlit run app.py
+   ```
 
 ## Security Notes
 
-- Never commit your `.env` file to version control
-- Keep your API keys secure and don't share them publicly
+- Never commit your `.env` file or API keys to version control
 - The `.gitignore` file is configured to exclude sensitive files
+- Use Streamlit Cloud's Secrets management for deployment
 
 ## Environment Variables
 
-- `GOOGLE_API_KEY`: Your Google Gemini Pro API key
+- `COHERE_API_KEY`: Your Cohere API key
 
 ## Contributing
 
