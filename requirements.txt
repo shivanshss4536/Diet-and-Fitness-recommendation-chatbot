@@ -5,3 +5,4 @@ pandas
 fpdf
 google-ai-generativelanguage==0.6.15
 pydantic>=2.10.0
+python-dotenv==1.0.0

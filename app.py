@@ -7,14 +7,23 @@ import pandas as pd
 import plotly.express as px
 from fpdf import FPDF
 import re
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 st.set_page_config(layout="wide", page_icon="🏋️", page_title="Personalized Diet & Fitness")
 
 if 'page' not in st.session_state:
     st.session_state.page = 'input'
 
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyDBNbiXQQFQsdNT0-MpQcfXYqGKO-Mb7kc'
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+# Get API key from environment variable
+api_key = os.getenv('GOOGLE_API_KEY')
+if not api_key:
+    st.error("Google API key not found. Please set the GOOGLE_API_KEY environment variable.")
+    st.stop()
+
+genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel('gemini-1.5-pro')
 

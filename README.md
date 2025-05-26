@@ -1,64 +1,61 @@
-# Diet-and-workout-Recommendation-using-Google-Gemini-pro
-Elevate your health journey with our Diet &amp; Workout Recommendation System on Google Gemini Pro! Personalized suggestions based on age, Gender, height, weight, region, dietary preferences, allergies, and health conditions. Optimize your well-being effortlessly!
+# Health and Fitness Chatbot
 
-## Key Features
+A personalized diet and workout recommendation system using Google Gemini Pro.
 
-- **Personalized recommendations:** Generates diet and workout plans customized to individual needs and preferences.
-- **AI-powered insights:** Utilizes Google Gemini Pro's advanced language capabilities to provide comprehensive and informative recommendations.
-- **User-friendly interface:** Streamlined interaction through a simple and intuitive interface.
+## Features
 
-## Technologies Used
+- Personalized diet and workout recommendations
+- Interactive user interface
+- Weekly activity overview
+- PDF report generation
+- Responsive design
 
-- **Streamlit:** Framework for building web applications in Python.
-- **Google Gemini Pro API:** Access to Google AI's text-generating capabilities.
-- **Google Generative AI:** Direct integration with Google's generative AI models.
+## Setup Instructions
 
-## Flowchart: Using Google Gemini Pro API Key in Diet and Workout Recommendation Project
+1. Clone the repository:
+```bash
+git clone <your-repository-url>
+cd health-and-fitness-chatbot
+```
 
-**Start**
+2. Create a virtual environment and activate it:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-**--> User inputs preferences** - Age - Weight -Food type - Gender - Veg or Non-Veg - Region - State
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-**--> Prepare request for Gemini Pro API** - Format user input into structured API request - Include prompts and parameters as needed
+4. Create a `.env` file in the root directory and add your Google API key:
+```
+GOOGLE_API_KEY=your_api_key_here
+```
 
-**--> Send request to Gemini Pro API** - Use Google Generative AI library - Submit request with API key
+5. Run the application:
+```bash
+streamlit run app.py
+```
 
-**--> Receive response from Gemini Pro API** - API processes request - Generates text output with recommendations
+## Security Notes
 
-**--> Parse and format response** - Extract relevant information: - Food suggestions - Workout - Fitness tips.
+- Never commit your `.env` file to version control
+- Keep your API keys secure and don't share them publicly
+- The `.gitignore` file is configured to exclude sensitive files
 
-**--> Present recommendations to user** - Display information in Streamlit interface
+## Environment Variables
 
-**--> (Optional) Offer additional functionalities** - Adjust preferences - Refine recommendations - Track progress - Access other diet/workout features
+- `GOOGLE_API_KEY`: Your Google Gemini Pro API key
 
-**End**
+## Contributing
 
+1. Fork the repository
+2. Create a new branch
+3. Make your changes
+4. Submit a pull request
 
-## Live Project
-https://diet-and-fitness-recommendation-chatbot-qrvh3zwnnphu6mswfiba5p.streamlit.app/
+## License
 
-
-
-## Setup and Usage
-
-1. Obtain a Google Gemini Pro API key.
-2. **Install required libraries:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Streamlit app:**
-
-   ```bash
-   streamlit run app.py
-   ```
-
-## Requirements
-
-The application requires the following packages:
-- streamlit
-- google-generativeai
-- plotly
-- pandas
-- fpdf
+This project is licensed under the MIT License - see the LICENSE file for details.
