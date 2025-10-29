@@ -317,7 +317,7 @@ def output_page():
     if 'recommendations' in st.session_state:
         st.markdown("### 🎉 Overview")
         with st.expander("View Recommendations"):
-            st.markdown(f"<div class='card'>{st.session_state.recommendations}</div>", unsafe_allow_html=True)
+            st.markdown(st.session_state.recommendations)
         st.markdown("### 📊 Weekly Activity Overview")
         data = pd.DataFrame({
             "Day": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
