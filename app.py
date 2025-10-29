@@ -7,17 +7,18 @@ import plotly.express as px
 from fpdf import FPDF
 import re
 from dotenv import load_dotenv
+from pathlib import Path
 import cohere
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from project root
+dotenv_path = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=dotenv_path, override=False)
 
 st.set_page_config(layout="wide", page_icon="🏋️", page_title="Personalized Diet & Fitness")
 
 if 'page' not in st.session_state:
     st.session_state.page = 'input'
 
-# Get Cohere API key from environment variable
 cohere_api_key = os.getenv('COHERE_API_KEY')
 if not cohere_api_key:
     st.error("Cohere API key not found. Please set the COHERE_API_KEY environment variable.")
@@ -29,11 +30,10 @@ def generate_recommendations(user_data):
     prompt = f"""
     Diet and Exercise Recommendation System:
     - Suggest 6 types of home workouts with concise but clear instructions.
-    - Suggest 6 breakfast ideas and 5 dinner options, each with brief nutritional information and estimated calories per serving.
+    - Suggest 6 breakfast ideas and 5 dinner options, each with brief nutritional information and estimated calories per serving amd their recipe too with total protein they will get after eating that meal  .
     - For each food, include calories and a short note on its health benefits or suitability for the user's profile.
-    - For gym workout plans, provide a summarized weekly plan (6 days), listing the main focus and key exercises for each day, rather than detailed daily breakdowns.
-    - Make the output as detailed and actionable as possible while including all necessary information.
-    - Do NOT include disclaimers, generic advice, or closing lines such as 'let me know if you need more' or 'consult a professional'. Only output the recommendations themselves.
+    - For gym workout plans, provide a summarized weekly plan (6 days), listing the main focus and key exercises for each day ad include how to do that exercise properly.
+    - Do NOT include disclaimers or generic advice.
     Full Name: {user_data['full_name']}
     Age: {user_data['age_group']}
     Gender: {user_data['gender_identity']}
@@ -42,16 +42,30 @@ def generate_recommendations(user_data):
     Diet Preference: {user_data['diet_preference']}
     Allergic Reactions: {user_data['allergic_reactions']}
     """
-    try:
-        response = co.generate(
-            model='command',
-            prompt=prompt,
-            max_tokens=3500
-        )
-        return response.generations[0].text
-    except Exception as e:
-        st.error(f"Error generating recommendations: {e}")
-        return f"Unable to generate recommendations at this time. Error: {e}"
+
+    supported_models = [
+        "command-r",
+        "command-r-08-2024",
+        "command-r-plus-08-2024",
+    ]
+
+    last_error = None
+    for model_name in supported_models:
+        try:
+            response = co.chat(
+                model=model_name,
+                preamble="You are a professional AI health and fitness assistant.",
+                message=prompt,
+                temperature=0.7,
+                max_tokens=3500
+            )
+            return response.text
+        except Exception as e:
+            last_error = e
+            continue
+
+    st.error(f"Error generating recommendations: {last_error}")
+    return f"Unable to generate recommendations at this time. Error: {last_error}"
 
 def set_css():
     st.markdown("""
@@ -291,7 +305,7 @@ def generate_pdf(recommendations_text):
     cleaned_text = clean_recommendations_text(recommendations_text)
     try:
         pdf.multi_cell(0, 10, cleaned_text)
-    except Exception as e:
+    except Exception:
         cleaned_text = ''.join(c for c in cleaned_text if ord(c) < 128)
         pdf.multi_cell(0, 10, cleaned_text)
     pdf.output(pdf_file_path)
@@ -319,7 +333,7 @@ def output_page():
                 b64_pdf = base64.b64encode(pdf_bytes).decode()
                 href = f'<a href="data:application/pdf;base64,{b64_pdf}" download="recommendations.pdf"><button class="stButton">📥 Download Recommendations (PDF)</button></a>'
                 st.markdown(href, unsafe_allow_html=True)
-        except Exception as e:
+        except Exception:
             st.error("Could not generate PDF. Please try again or contact support.")
             st.info("You can still view your recommendations in the Overview section above.")
         if st.button("🔙 Back to Input Page"):
